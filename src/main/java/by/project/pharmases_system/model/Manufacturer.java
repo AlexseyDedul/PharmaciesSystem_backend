@@ -1,12 +1,14 @@
 package by.project.pharmases_system.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
+
 @Entity
-public class Manufacturer {
+@Table(name = "manufacturer_table")
+public class Manufacturer implements Serializable {
+    private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,8 +21,7 @@ public class Manufacturer {
     public Manufacturer() {
     }
 
-    public Manufacturer(Long id, String name, String country, String city, String address, String phoneNumb) {
-        this.id = id;
+    public Manufacturer(String name, String country, String city, String address, String phoneNumb) {
         this.name = name;
         this.country = country;
         this.city = city;
@@ -87,5 +88,17 @@ public class Manufacturer {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, country, city, address, phoneNumb);
+    }
+
+    @Override
+    public String toString() {
+        return "Manufacturer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumb='" + phoneNumb + '\'' +
+                '}';
     }
 }

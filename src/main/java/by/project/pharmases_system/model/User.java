@@ -1,13 +1,18 @@
 package by.project.pharmases_system.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class User {
+@Table(name = "user_table")
+@JsonIgnoreProperties(value = {"login", "password"}, allowSetters = true)
+public class User implements Serializable {
+    private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,29 +21,36 @@ public class User {
     private String phone;
     private String email;
     private String position;
+
+    @ManyToOne
+    @JoinColumn(name = "pharmacy_id")
+    private Pharmacy pharmacy;
+
+    @JsonProperty("login")
     private String login;
+    @JsonProperty("password")
     private String password;
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
 
     public User() {
     }
 
-    public User(Long id, String surname, String name, String phone, String email, String position, String login, String password) {
-        this.id = id;
+    public User(String surname, String name, String phone, String email, String position, Pharmacy pharmacy, String login, String password) {
         this.surname = surname;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.position = position;
+        this.pharmacy = pharmacy;
         this.login = login;
         this.password = password;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getSurname() {
@@ -81,6 +93,10 @@ public class User {
         this.position = position;
     }
 
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
     public String getLogin() {
         return login;
     }
@@ -108,5 +124,19 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, surname, name, phone, email, position, login, password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", position='" + position + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

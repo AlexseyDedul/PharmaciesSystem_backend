@@ -1,19 +1,20 @@
 package by.project.pharmases_system.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
+
 @Entity
-public class ReleaseForm {
+@Table(name = "release_form_table")
+public class ReleaseForm implements Serializable {
+    private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
-    public ReleaseForm(Long id, String name) {
-        this.id = id;
+    public ReleaseForm(String name) {
         this.name = name;
     }
 
@@ -44,5 +45,13 @@ public class ReleaseForm {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "ReleaseForm{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -1,20 +1,21 @@
 package by.project.pharmases_system.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
+
 @Entity
-public class MedicinesInTheInvoice {
+@Table(name = "medicines_in_the_invoice_table")
+public class MedicinesInTheInvoice implements Serializable {
+    private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private int number;
 
-    public MedicinesInTheInvoice(Long id, int number) {
-        this.id = id;
+    public MedicinesInTheInvoice(int number) {
         this.number = number;
     }
 
@@ -45,5 +46,13 @@ public class MedicinesInTheInvoice {
     @Override
     public int hashCode() {
         return Objects.hash(id, number);
+    }
+
+    @Override
+    public String toString() {
+        return "MedicinesInTheInvoice{" +
+                "id=" + id +
+                ", number=" + number +
+                '}';
     }
 }

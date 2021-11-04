@@ -1,12 +1,20 @@
 package by.project.pharmases_system.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
-public class Pharmacy {
+@Table(name = "pharmacy_table")
+@JsonIgnoreProperties(value = {"userSet"}, allowSetters = true)
+public class Pharmacy implements Serializable {
+    private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -15,8 +23,15 @@ public class Pharmacy {
     private String country;
     private String address;
 
-    public Pharmacy(Long id, String name, String stateNumber, String country, String address) {
-        this.id = id;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pharmacy_id")
+    @JsonProperty("userSet")
+    private Set<User> userSet;
+
+    public Pharmacy() {
+    }
+
+    public Pharmacy(String name, String stateNumber, String country, String address) {
         this.name = name;
         this.stateNumber = stateNumber;
         this.country = country;
@@ -25,10 +40,6 @@ public class Pharmacy {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -63,6 +74,10 @@ public class Pharmacy {
         this.address = address;
     }
 
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,5 +89,16 @@ public class Pharmacy {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, stateNumber, country, address);
+    }
+
+    @Override
+    public String toString() {
+        return "Pharmacy{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", stateNumber='" + stateNumber + '\'' +
+                ", country='" + country + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

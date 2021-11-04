@@ -1,12 +1,14 @@
 package by.project.pharmases_system.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
+
 @Entity
-public class MedicineWarehouse {
+@Table(name = "medicine_warehouse_table")
+public class MedicineWarehouse implements Serializable {
+    private static final long serialVersionUID = 1l;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,8 +21,7 @@ public class MedicineWarehouse {
     private String dosage;
     private int number;
 
-    public MedicineWarehouse(Long id, String name, double price, String shelfLife, String description, String dosage, int number) {
-        this.id = id;
+    public MedicineWarehouse(String name, double price, String shelfLife, String description, String dosage, int number) {
         this.name = name;
         this.price = price;
         this.shelfLife = shelfLife;
@@ -96,5 +97,18 @@ public class MedicineWarehouse {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, price, shelfLife, description, dosage, number);
+    }
+
+    @Override
+    public String toString() {
+        return "MedicineWarehouse{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", shelfLife='" + shelfLife + '\'' +
+                ", description='" + description + '\'' +
+                ", dosage='" + dosage + '\'' +
+                ", number=" + number +
+                '}';
     }
 }
