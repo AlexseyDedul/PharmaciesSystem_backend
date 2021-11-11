@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +21,11 @@ public class PharmacyServiceImpl implements PharmacyService {
     @Override
     public ResponseEntity<List<Pharmacy>> getListPharmacies(String name) {
         try{
-            List<Pharmacy> pharmacyList = new ArrayList<>();
+            List<Pharmacy> pharmacyList = null;
             if(name == null)
-                pharmacyRepo.findAll().forEach(pharmacyList::add);
+                pharmacyList = pharmacyRepo.findAll();
             else
-                pharmacyRepo.findByNameContaining(name).forEach(pharmacyList::add);
+                pharmacyList = pharmacyRepo.findByNameContaining(name);
 
             if(pharmacyList.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);

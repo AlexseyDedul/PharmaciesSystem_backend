@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +23,11 @@ public class UserServiceImpl implements UserService {
 
     public ResponseEntity<List<User>> getListUsers(String surname){
         try {
-            List<User> listUsers = new ArrayList<>();
+            List<User> listUsers = null;
             if (surname == null)
-                userRepo.findAll().forEach(listUsers::add);
+                listUsers = userRepo.findAll();
             else
-                userRepo.findBySurnameContaining(surname).forEach(listUsers::add);
+                listUsers = userRepo.findBySurnameContaining(surname);
 
             if (listUsers.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
