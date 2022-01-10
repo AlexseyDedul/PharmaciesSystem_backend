@@ -12,8 +12,19 @@ public class MedicinesInTheInvoice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
+    @ManyToOne
+    @JoinColumn(name = "medicine_warehouse_id")
+    private MedicineWarehouse medicineWarehouse;
     private int number;
+
+    public MedicinesInTheInvoice(Invoice invoice, MedicineWarehouse medicineWarehouse, int number) {
+        this.invoice = invoice;
+        this.medicineWarehouse = medicineWarehouse;
+        this.number = number;
+    }
 
     public MedicinesInTheInvoice(int number) {
         this.number = number;
@@ -33,6 +44,22 @@ public class MedicinesInTheInvoice implements Serializable {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public void setMedicineWarehouse(MedicineWarehouse medicineWarehouse) {
+        this.medicineWarehouse = medicineWarehouse;
+    }
+
+    public MedicineWarehouse getMedicineWarehouse() {
+        return medicineWarehouse;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
     }
 
     @Override

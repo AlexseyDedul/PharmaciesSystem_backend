@@ -1,5 +1,8 @@
 package by.project.pharmases_system.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +16,12 @@ public class Application implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date date;
+    @ManyToOne
+    @JoinColumn(name = "pharmacy_id")
+    private Pharmacy pharmacy;
     private String reason;
     private double allPrice;
 
@@ -22,6 +30,13 @@ public class Application implements Serializable {
 
     public Application(Date date, String reason, double allPrice) {
         this.date = date;
+        this.reason = reason;
+        this.allPrice = allPrice;
+    }
+
+    public Application(Pharmacy pharmacy, String reason, double allPrice) {
+        this.date = new Date();
+        this.pharmacy = pharmacy;
         this.reason = reason;
         this.allPrice = allPrice;
     }
@@ -38,8 +53,8 @@ public class Application implements Serializable {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate() {
+        this.date = new Date();
     }
 
     public String getReason() {
@@ -56,6 +71,14 @@ public class Application implements Serializable {
 
     public void setAllPrice(double allPrice) {
         this.allPrice = allPrice;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 
     @Override

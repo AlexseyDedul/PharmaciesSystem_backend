@@ -13,10 +13,19 @@ public class Invoice implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "application_id")
+    private Application application;
     private String reason;
     private double fullPrice;
 
     public Invoice(String reason, double fullPrice) {
+        this.reason = reason;
+        this.fullPrice = fullPrice;
+    }
+
+    public Invoice(Application application, String reason, double fullPrice) {
+        this.application = application;
         this.reason = reason;
         this.fullPrice = fullPrice;
     }
@@ -43,6 +52,14 @@ public class Invoice implements Serializable {
 
     public void setFullPrice(double fullPrice) {
         this.fullPrice = fullPrice;
+    }
+
+    public Application getApplication() {
+        return application;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
     @Override

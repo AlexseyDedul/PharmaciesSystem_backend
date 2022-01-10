@@ -14,6 +14,9 @@ public class ReleaseForm implements Serializable {
     private Long id;
     private String name;
 
+    public ReleaseForm() {
+    }
+
     public ReleaseForm(String name) {
         this.name = name;
     }

@@ -14,6 +14,13 @@ public class MedicineWarehouse implements Serializable {
     private Long id;
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "release_form_id")
+    private ReleaseForm releaseForm;
+    @ManyToOne
+    @JoinColumn(name = "manufacturer_id")
+    private Manufacturer manufacture;
+
     private double price;
     private String shelfLife;
     private String description;
@@ -21,13 +28,23 @@ public class MedicineWarehouse implements Serializable {
     private String dosage;
     private int number;
 
-    public MedicineWarehouse(String name, double price, String shelfLife, String description, String dosage, int number) {
+    @ManyToOne
+    @JoinColumn(name = "disease_id")
+    private Disease disease;
+
+    public MedicineWarehouse() {
+    }
+
+    public MedicineWarehouse(String name, ReleaseForm releaseForm, Manufacturer manufacture, double price, String shelfLife, String description, String dosage, int number, Disease disease) {
         this.name = name;
+        this.releaseForm = releaseForm;
+        this.manufacture = manufacture;
         this.price = price;
         this.shelfLife = shelfLife;
         this.description = description;
         this.dosage = dosage;
         this.number = number;
+        this.disease = disease;
     }
 
     public Long getId() {
@@ -84,6 +101,30 @@ public class MedicineWarehouse implements Serializable {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public ReleaseForm getReleaseForm() {
+        return releaseForm;
+    }
+
+    public void setReleaseForm(ReleaseForm releaseForm) {
+        this.releaseForm = releaseForm;
+    }
+
+    public Manufacturer getManufacture() {
+        return manufacture;
+    }
+
+    public void setManufacture(Manufacturer manufacture) {
+        this.manufacture = manufacture;
+    }
+
+    public Disease getDisease() {
+        return disease;
+    }
+
+    public void setDisease(Disease disease) {
+        this.disease = disease;
     }
 
     @Override
